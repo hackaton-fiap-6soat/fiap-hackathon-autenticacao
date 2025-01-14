@@ -1,4 +1,4 @@
-name: Deploy Infrastructure to AWS
+name: Validate terraform scripts
 
 on:
   pull_request:
