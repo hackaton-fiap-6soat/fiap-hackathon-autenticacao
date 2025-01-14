@@ -27,5 +27,5 @@ jobs:
       - name: terraform-init
         run: terraform -chdir=./terraform init
 
-      - name: terraform-apply-eks-rds
+      - name: terraform-validate
         run: terraform -chdir=./terraform validate
