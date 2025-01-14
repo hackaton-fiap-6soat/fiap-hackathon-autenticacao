@@ -25,5 +25,5 @@ jobs:
       - name: terraform-init
         run: terraform -chdir=./terraform init
 
-      - name: terraform-apply-eks-rds
+      - name: terraform-apply
         run: terraform -chdir=./terraform apply -auto-approve
