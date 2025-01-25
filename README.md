@@ -94,7 +94,7 @@ Considerações de Segurança:
 5. Lambda pode realizar solicitações ao Amazon Cognito para consultar o token e outras informações do usuário.
 6. Dados do usuário podem ser transmitidos para acesso em outros serviços.
 
-![diagrama do fluxo de autenticacao]()
+![diagrama do fluxo de autenticacao](https://github.com/hackaton-fiap-6soat/fiap-hackathon-autenticacao/blob/main/autenticacao.png?raw=true)
 
 
 ## Visão geral do fluxo de solicitação das pre-signed urls:
@@ -104,4 +104,4 @@ Considerações de Segurança:
 3. Resposta com url é retornada ao client acessado pelo usuário
 4. Client realiza a operação utilizando a pre signed url diretamente com o S3
 
-![Diagrama do fluxo de solicitação das urls]()
+![Diagrama do fluxo de solicitação das urls](https://github.com/hackaton-fiap-6soat/fiap-hackathon-autenticacao/blob/main/pre-signed-url.png?raw=true)
