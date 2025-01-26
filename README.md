@@ -184,3 +184,37 @@ resource "aws_lambda_function" "hello_lambda" {
   }
 }
 ```
+
+Exemplo de código python para acessar os dados de usuário:
+
+```python
+user_pool_id = os.environ.get("user_pool_id")
+
+cognito = boto3.client("cognito-idp")
+user = cognito.admin_get_user(UserPoolId=user_pool_id, Username=username)
+```
+
+Exemplo da estrutura do dict retornado pelo `admin_get_user`
+
+```python
+{
+  'Username': '<username>',
+  'UserAttributes': [
+    {'Name': 'email', 'Value': '<user email>'},
+    {'Name': 'email_verified', 'Value': 'true'},
+    {'Name': 'sub', 'Value': '<username>'}
+  ],
+  'ResponseMetadata': {
+    'RequestId': '7f0e1429-0f7c-4f3d-9311-b9fd3afa46f0',
+    'HTTPStatusCode': 200,
+    'HTTPHeaders': {
+      'date': 'Sun, 26 Jan 2025 19:50:11 GMT',
+      'content-type': 'application/x-amz-json-1.1',
+      'content-length': '234',
+      'connection': 'keep-alive',
+      'x-amzn-requestid': '7f0e1429-0f7c-4f3d-9311-b9fd3afa46f0'
+    },
+    'RetryAttempts': 0
+  }
+}
+```
