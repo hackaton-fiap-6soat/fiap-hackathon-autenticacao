@@ -23,7 +23,7 @@ jobs:
 
       # Deploy the cognito user pool and api gateway endpoint
       - name: terraform-init
-        run: terraform -chdir=./terraform init
+        run: terraform -chdir=./terraform init -backend-config="bucket=${TF_STATE_BUCKET}" -backend-config="key=fiap.hackathon.authentication.infra.tfstate" -backend-config="region=us-east-1"
 
       - name: terraform-apply
-        run: terraform -chdir=./terraform apply -auto-approve -backend-config="bucket=${TF_STATE_BUCKET}" -backend-config="key=fiap.hackathon.authentication.infra.tfstate" -backend-config="region=us-east-1"
+        run: terraform -chdir=./terraform apply -auto-approve 
