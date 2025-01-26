@@ -1,9 +1,4 @@
 terraform {
-  backend "s3" {
-    bucket = "fiap-hackathon-authentication-artifacts"
-    region = "us-east-1"
-    key = "fiap.hackathon.authentication.infra.tfstate"
-  }
 }
 
 provider "aws" {
