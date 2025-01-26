@@ -26,4 +26,4 @@ jobs:
         run: terraform -chdir=./terraform init
 
       - name: terraform-apply
-        run: terraform -chdir=./terraform apply -auto-approve
+        run: terraform -chdir=./terraform apply -auto-approve -backend-config="bucket=${TF_STATE_BUCKET}" -backend-config="key=fiap.hackathon.authentication.infra.tfstate" -backend-config="region=us-east-1"
