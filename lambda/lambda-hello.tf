@@ -16,6 +16,17 @@ resource "aws_lambda_function" "hello_lambda" {
   timeout          = 10
 
   depends_on = [ data.archive_file.hello_lambda_zip ]
+
+  vpc_config {
+    subnet_ids = data.aws_subnets.private-subnets.ids
+    security_group_ids = [aws_security_group.lambda.id]
+  }
+
+  environment {
+    variables = {
+      user_pool_id: data.aws_cognito_user_pool.user_pool.id
+    }
+  }
 }
 
 # Api Gateway Integration
