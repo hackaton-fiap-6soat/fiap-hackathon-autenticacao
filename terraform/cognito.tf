@@ -1,7 +1,5 @@
-
 resource "aws_cognito_user_pool" "user_pool" {
-    domain = "fiap-hackathon-authentication-2-new"
-    name = "user-pool-eder"
+    name = "user-pool"
 
     password_policy {
         minimum_length = 8
@@ -39,7 +37,7 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
     }
 }
 
-resource aws_cognito_user_pool_domain "user_pool_domain" {
-    domain = "fiap-hackathon-authentication-2"
+resource "aws_cognito_user_pool_domain" "user_pool_domain" {
+    domain = "fiap-hackathon-authentication-2-new"
     user_pool_id = aws_cognito_user_pool.user_pool.id
 }
