@@ -1,6 +1,7 @@
 
 resource "aws_cognito_user_pool" "user_pool" {
-    name = "user-pool"
+    domain = "fiap-hackathon-authentication-2-new"
+    name = "user-pool-eder"
 
     password_policy {
         minimum_length = 8
