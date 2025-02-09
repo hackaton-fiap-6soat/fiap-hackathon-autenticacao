@@ -218,3 +218,76 @@ Exemplo da estrutura do dict retornado pelo `admin_get_user`
   }
 }
 ```
+
+## Construindo recursos dentro da VPC compartilhada
+
+Para utilizar a VPC compartilhada, é necessário referenciar a VPC e subnets utilizando `data sources`. Abaixo o modelo de código a ser utilizado
+
+```terraform
+data "aws_vpc" "hackathon-vpc" {
+  filter {
+    name   = "tag:Name"
+    values = ["hackathon-vpc"]
+  }
+}
+
+data "aws_subnets" "private-subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.hackathon-vpc.id]
+  }
+
+  filter {
+    name   = "tag:Name"
+    values = ["*private*"]
+  }
+}
+```
+
+Abaixo um exemplo de como os data sources podem ser utilizados na criação de uma lambda interna
+
+```terraform
+resource "aws_security_group" "lambda" {
+  name        = "lambda-sg"
+  description = "Security group for Lambda"
+  vpc_id      = data.aws_vpc.hackathon-vpc.id # data source da vpc
+
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "TCP"
+    cidr_blocks = [data.aws_vpc.hackathon-vpc.cidr_block] # data source da vpc
+  }
+}
+
+data "archive_file" "hello_lambda_zip" {
+  type        = "zip"
+  source_dir  = "${path.module}/hello"
+  output_path = "${path.module}/hello.py.zip"
+}
+
+
+resource "aws_lambda_function" "hello_lambda" {
+  filename         = "${path.module}/hello.py.zip"
+  function_name    = "hello_lambda"
+  role             = data.aws_iam_role.LabRole.arn
+  handler          = "main.lambda_handler"
+  runtime          = "python3.9"
+  source_code_hash = data.archive_file.hello_lambda_zip.output_base64sha256
+  timeout          = 10
+
+  depends_on = [ data.archive_file.hello_lambda_zip ]
+
+  # Data sources das subnets e security groups
+  vpc_config {
+    subnet_ids = data.aws_subnets.private-subnets.ids
+    security_group_ids = [aws_security_group.lambda.id]
+  }
+
+  environment {
+    variables = {
+      user_pool_id: data.aws_cognito_user_pool.user_pool.id
+    }
+  }
+}
+```
