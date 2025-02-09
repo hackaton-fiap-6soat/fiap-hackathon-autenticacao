@@ -38,7 +38,14 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
     }
 }
 
+resource "random_string" "cognito_domain_id" {
+  length  = 8
+  special = false
+  upper   = false
+  numeric  = false
+}
+
 resource aws_cognito_user_pool_domain "user_pool_domain" {
-    domain = "fiap-hackathon-authentication-2"
+    domain = "fiap-hackathon-authentication-${random_string.cognito_domain_id.result}"
     user_pool_id = aws_cognito_user_pool.user_pool.id
 }
