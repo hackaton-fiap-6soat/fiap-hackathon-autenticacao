@@ -38,12 +38,11 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
     }
 }
 
-resource random_string "cognito_domain_id" {
-    length = 6
-    special = false
-    numeric = false
-    upper = true
-    lower = true
+resource "random_string" "cognito_domain_id" {
+  length  = 8
+  special = false
+  upper   = false
+  numeric  = false
 }
 
 resource aws_cognito_user_pool_domain "user_pool_domain" {
